@@ -14,7 +14,7 @@ object Application extends Controller {
   		val stmt= conn.createStatement()
   		val rs = stmt.executeQuery("SELECT * FROM Users")
   		while(rs.next()) {
-  			outString += rs.getString("name")
+  			outString += rs.getString("email")
   		}
   	} finally {
   		conn.close()
