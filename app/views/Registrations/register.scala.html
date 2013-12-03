@@ -1,0 +1,24 @@
+@* register Template File *@
+@(registerForm: Form[registerUserData])
+
+@import views.html.helper._
+
+@main("Register"){
+	@helper.form(action = routes.Registrations.add){
+	      @inputText(registerForm("email"),'_label -> "E-mail",
+	      	'placeholder -> "youremail@example.com"
+	      )
+	      @inputPassword(registerForm("password.main"),'_label -> "Password",
+	      	'placeholder -> "type your password"
+	      )
+	      @inputPassword(registerForm("password.confirm"),'_label -> "Confirm Password",
+	      	'placeholder -> "type your password again",
+	      	'_error -> registerForm.error("password")
+	      )
+	    <input type="submit" class="btn" value="Register"/>
+	}
+}
+	
+
+
+
