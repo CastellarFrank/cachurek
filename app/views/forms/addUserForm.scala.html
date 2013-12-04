@@ -1,0 +1,37 @@
+@(addUserForm: Form[UserData])
+
+@import helper._
+@import views.html.buttons._
+
+
+@main("Welcome to Play") {
+
+    @helper.form(action = routes.Users.submitNewUser) {
+    	<fieldset>
+            <legend>Account information</legend>
+            @inputText(
+                addUserForm("email"), '_label -> "Email",
+                '_help -> "Enter a valid email address."
+            )
+            
+            @inputPassword(
+                addUserForm("password.main"), 
+                '_label -> "Password",
+                '_help -> "A password must be at least 6 characters. "
+            )
+            
+            @inputPassword(
+                addUserForm("password.confirm"), 
+                '_label -> "Repeat password",
+                '_help -> "Please repeat your password again.",
+                '_error -> addUserForm.error("password")
+            )
+        </fieldset>
+        <div class="actions">
+        
+        	@simpleSubmitButton("Add User")
+            @simpleNormalButton("Cancel", "button alert" ,routes.Application.index)
+        </div>
+    }
+
+}
