@@ -6,8 +6,6 @@
 GET     /                           controllers.Application.index
 GET		/register					controllers.Registrations.register
 POST	/register					controllers.Registrations.add
-GET		/register					controllers.Registrations.register
-POST	/register					controllers.Registrations.add
 GET     /addNewUser                 controllers.Users.newUserForm
 POST    /addNewUser                 controllers.Users.submitNewUser
 
