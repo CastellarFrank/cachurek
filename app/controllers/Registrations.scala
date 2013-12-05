@@ -9,6 +9,7 @@ import play.api.mvc.Action
 import anorm._
 import play.api.db.DB
 import java.util.Calendar
+import com.typesafe.plugin._
 
 object Registrations extends Controller {
 	
@@ -28,6 +29,13 @@ object Registrations extends Controller {
 		registerForm.bindFromRequest.fold(
 		  error => BadRequest(views.html.Registrations.register(error)),
 		  newRegister => {
+		  			
+					val mail = use[MailerPlugin].email
+					mail.setSubject("mailer")
+					mail.addRecipient("fernandez_alex_15@hotmail.com")
+					mail.addBcc(List("Omar Lorenzo <olorenzo@outlook.com>",newRegister.email):_*)
+					mail.addFrom("Alex Fernandez <noreply@cachurek.com>")
+					mail.send( newRegister.email , "<html>"+ newRegister.email +"</html>" )
 		  			Register.insert(newRegister)
 		  			Redirect(routes.Registrations.add())
 		  }
@@ -35,6 +43,10 @@ object Registrations extends Controller {
 	}
 	
 	def register =  Action { implicit request =>
+		Ok(views.html.Registrations.register(registerForm))
+	}
+	
+	def confirmRegistration(email: String)= Action {
 		Ok(views.html.Registrations.register(registerForm))
 	}
 	
