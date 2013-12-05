@@ -26,6 +26,21 @@
                 '_help -> "Please repeat your password again.",
                 '_error -> addUserForm.error("password")
             )
+            
+            @select(
+                addUserForm("level"), 
+                options = options(List("Mortal","Inmortal")),
+                '_label -> "User Type",
+                '_error -> addUserForm("level").error.map(_.withMessage("Please select an user Type"))
+            )
+            
+            @select(
+                addUserForm("status"), 
+                options = options(List("Activa","Inactiva")),
+                '_label -> "User Status",
+                '_error -> addUserForm("status").error.map(_.withMessage("Please select an user status"))
+            )
+            
         </fieldset>
         <div class="actions">
         

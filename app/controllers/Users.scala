@@ -5,6 +5,7 @@ import play.api.mvc._
 import play.api.data.Forms._
 import play.api.data._
 import models.UserData
+import models.UsersActions
 
 
 object Users extends Controller{
@@ -17,15 +18,26 @@ object Users extends Controller{
 	        "confirm"->text
 	        ).verifying(
 	            "Passwords don't match.", passwords => passwords._1 == passwords._2
-	        )
+	        ),
+	     "level" -> text,
+	     "status" -> text
 	  )
 	  {
-		  (email, passwords) => UserData(email, passwords._1) 
+		  (email, passwords, level, status) => UserData(
+				email, 
+		      	passwords._1,
+		      	if(level.equals("Mortal")) 1 else 2,
+		      	status.equals("Activa")
+		  ) 
 	  }	
 	  {
-		  user => Some(user.email, (user.password, ""))
+		  user => Some(
+		      user.email,
+		      (user.password, ""), 
+		      if(user.level==1) "Mortal" else "Inmortal", 
+		      if(user.status) "Activa" else "Inactiva"
+		  )
 	  }
-	 
   )
   
   def newUserForm = Action {
@@ -35,7 +47,10 @@ object Users extends Controller{
   def submitNewUser = Action { implicit request =>
     userDataForm.bindFromRequest.fold(
       errors => BadRequest(views.html.forms.addUserForm(errors)),
-      UserData => Ok(views.html.index("Agregado"))
+      UserData => {
+    	  UsersActions.newUserInsert(UserData)
+    	  Redirect(routes.Users.newUserForm)
+        }
     )
   }
 }
