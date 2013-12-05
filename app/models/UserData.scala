@@ -12,13 +12,14 @@ object UsersActions{
 	    DB.withConnection { implicit connection =>
 	      SQL(
 	      		"""
-	    		  INSERT INTO Users (email, password, created, level, status)
-	    		  VALUES ({email}, {password}, {created}, {level}, {status})
+	    		  INSERT INTO Users (email, password, created, modified, level, status)
+	    		  VALUES ({email}, {password}, {created}, {modified}, {level}, {status})
 	    		"""
 	      ).on(
 	        "email" -> newUser.email,
 	        "password" -> newUser.password,
 	        "created" -> Calendar.getInstance().getTime(), 
+	        "modified" -> Calendar.getInstance().getTime(),
 	        "level" -> newUser.level,
 	        "status" -> newUser.status
 	      ).executeUpdate() == 1
