@@ -1,25 +1,28 @@
 package models
 
 import play.api.Play.current
-import play.api.db._
+import play.api.db.DB
+import anorm._
+import java.util.Calendar
 
-case class UserData(email:String, password:String){
-    
-  def emailExist(email:String):Boolean = { 
-  	val conn = DB.getConnection("default", true)
-  	try {
-  		val stmt= conn.createStatement() 
-  		val rs = stmt.executeQuery("SELECT * FROM Users")
-  		while(rs.next()) {
-  			if(rs.getString("email").equals(email))
-  			  return true
-  		} 
-  	} finally {
-  		conn.close()
-  	}
-  	return false
-  	
+case class UserData(email:String, password:String, level:Int, status:Boolean)
+
+object UsersActions{
+	  def newUserInsert(newUser: UserData): Boolean = {
+	    DB.withConnection { implicit connection =>
+	      SQL(
+	      		"""
+	    		  INSERT INTO Users (email, password, created, level, status)
+	    		  VALUES ({email}, {password}, {created}, {level}, {status})
+	    		"""
+	      ).on(
+	        "email" -> newUser.email,
+	        "password" -> newUser.password,
+	        "created" -> Calendar.getInstance().getTime(), 
+	        "level" -> newUser.level,
+	        "status" -> newUser.status
+	      ).executeUpdate() == 1
+	  }
   }
   
 }
-
