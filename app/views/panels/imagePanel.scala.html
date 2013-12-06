@@ -1,0 +1,6 @@
+@* imagePanel Template File *@
+@(source: String, ref: String = "#", myClass: String = "th [radius]")
+
+<a class='@myClass' href='@ref'>
+	<img src=@routes.Assets.at("images/test.jpg") style="width:220px; height:260px;">
+</a>

@@ -6,13 +6,16 @@ import play.api.data.Forms._
 import play.api.data._
 import models.UserData
 import models.UsersActions
+import models.CandidatesActions
 
 
 object Users extends Controller{
   
   val userDataForm: Form[UserData] = Form(
 	  mapping(
-	    "email" -> text,
+	    "email" -> text.verifying(
+	        "Email already exists", email => !UsersActions.userExist(email)
+	        ),
 	    "password" -> tuple(
 	        "main" -> text(minLength = 6), 
 	        "confirm"->text
@@ -49,8 +52,16 @@ object Users extends Controller{
       errors => BadRequest(views.html.forms.addUserForm(errors)),
       UserData => {
     	  UsersActions.newUserInsert(UserData)
-    	  Redirect(routes.Users.newUserForm)
+    	  Redirect(routes.Users.maintenance)
         }
     )
+  }
+  
+  def maintenance = Action {implicit request =>
+    Ok(views.html.maintenance.usersMaintenance(UsersActions.getAllUsers))
+  }
+  
+  def vote = Action{implicit request =>
+    Ok(views.html.vote(CandidatesActions.getAllCandidates))
   }
 }

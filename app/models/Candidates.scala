@@ -26,7 +26,7 @@ object CandidatesActions{
     } 
   }
   
-  def getAllCandidates(): Seq[Candidate] = {
+  def getAllCandidates: Seq[Candidate] = {
     DB.withConnection { implicit connection =>
 		val selectCandidates = SQL("Select * from Candidates")
 		 

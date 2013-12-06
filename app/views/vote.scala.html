@@ -1,0 +1,35 @@
+@* vote Template File *@
+@(candidates: Seq[Candidate])
+
+@import views.html.buttons._
+@import views.html.panels._
+
+@main("Vote Page") {
+	
+	@marginPanel(margin_top = 30, margin_bottom = 30, margin_left = 15, margin_right = 15){
+		@horizontalPanel{
+			@for((candidate,index) <- candidates.zipWithIndex){
+				@if(index % 5 == 0){
+					<br />
+				}
+				@verticalPanel{
+					@marginPanel(10,10,10,10){
+						@candidate.name	
+					}
+					@marginPanel(10,10,10,10){
+						@imagePanel(source = candidate.imagePath)	
+					}
+					@marginPanel(10,10,10,10){
+						@imageFlagPanel(source = candidate.imageFlagPath)	
+					}
+					@marginPanel(10,10,10,10){
+						@candidate.group	
+					}
+				}
+			}	
+		}
+		
+	}   
+
+}
+
