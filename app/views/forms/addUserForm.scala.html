@@ -2,11 +2,13 @@
 
 @import helper._
 @import views.html.buttons._
+@import views.html.panels._
 
 
 @main("Welcome to Play") {
 
-    @helper.form(action = routes.Users.submitNewUser) {
+	@marginPanel(10,10,10,10){
+		@helper.form(action = routes.Users.submitNewUser) {
     	<fieldset>
             <legend>Account information</legend>
             @inputText(
@@ -48,5 +50,8 @@
             @simpleNormalButton("Cancel", "button alert" ,routes.Application.index)
         </div>
     }
-
+		
+		
+	}
+    
 }

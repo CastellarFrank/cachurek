@@ -1,0 +1,8 @@
+@* marginPanel Template File *@
+@(margin_left:Int = 0, margin_right:Int = 0, margin_top:Int = 0, margin_bottom:Int = 0)(content: Html)
+
+<div style="margin-left:@(margin_left)px; margin-right:@(margin_right)px; 
+	margin-top:@(margin_top)px; margin-bottom:@(margin_bottom)px;">
+	@content
+</div>
+

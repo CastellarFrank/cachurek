@@ -1,2 +1,45 @@
 @* usersMaintenance Template File *@
-@(param: Any)
+@(users: Seq[UserData])
+
+@import views.html.buttons._
+@import views.html.panels._
+
+
+@main("Welcome to Play") {
+	@marginPanel(10,10,10,10){
+		@simpleNormalButton("Add User", "button", routes.Users.newUserForm)
+		<br />
+		
+	<script type="text/javaScript">
+	    $(document).ready(function() {
+	        $('#tableUsers').dataTable();
+	    } );
+    </script>
+
+	<table id="tableUsers">
+		<thead>
+			<tr role="row">
+				<th  style="width: 10%;">Id</th>
+				<th style="width: 20%;">Email</th>
+				<th style="width: 20%;">Created Date</th>
+				<th style="width: 20%;">Modified Date</th>
+				<th style="width: 15%;">Account Type</th>
+				<th style="width: 10%;">Status</th>
+			</tr>
+		</thead>
+		<tbody >
+			@for(user <- users){
+				<tr class="gradeA odd">
+					<td>@user.id</td>
+					<td>@user.email</td>
+					<td>@user.created</td>
+					<td>@user.modified</td>
+					<td>@user.level</td>
+					<td>@user.status</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+		
+	}
+}
