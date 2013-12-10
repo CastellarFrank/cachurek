@@ -3,8 +3,9 @@ package models
 import play.api.Play.current
 import play.api.db.DB
 import anorm._
+import anorm.SqlParser._
 
-case class Candidate (name:String, group:String,imagePath:String,imageFlagPath:String)
+case class Candidate (id:Int = -1, name:String, group:String,imagePath:String,imageFlagPath:String)
 
 
 object CandidatesActions{	
@@ -32,15 +33,48 @@ object CandidatesActions{
 		val selectCandidates = SQL("Select * from Candidates")
 		 
 		val candidates = selectCandidates().map(
-				candidate => new Candidate(
-				    candidate[String]("name"), 
-				    candidate[String]("group"),
-				    candidate[String]("image_path"),
-				    candidate[String]("image_flag_path")
+				candidate => Candidate(
+				    id = candidate[Int]("id"),
+				    name = candidate[String]("name"), 
+				    group = candidate[String]("group"),
+				    imagePath = candidate[String]("image_path"),
+				    imageFlagPath = candidate[String]("image_flag_path")
 				    )
 		).toList
 		
 		candidates
     }
-  }  
+  }
+  
+  def newVoteForCandidate(cand:Int, user:Int): Boolean = {
+    DB.withConnection { implicit connection =>
+	    if(!userHasVoted(user)){
+	    	SQL(
+	    		"""
+	    		  INSERT INTO candidate_votes (Users_id, Candidates_id)
+	    		  VALUES ({user}, {cand})
+	    		"""
+	    	).on(
+	    		"user" -> user,
+	    		"cand" -> cand
+	    	).executeUpdate() == 1
+	    }else{
+	      false
+	    }
+    }
+  }
+  
+  def userHasVoted(user:Int): Boolean = {
+    DB.withConnection { implicit connection =>
+    	val count:Long = 
+        SQL(
+	        """
+	    		SELECT count(*) FROM candidate_votes WHERE Users_id = {user}
+	        """
+	    ).on(
+	    	"user" -> user
+	    ).as(scalar[Long].single)
+	    count!=0
+    }
+  }
 }

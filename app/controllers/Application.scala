@@ -35,7 +35,7 @@ object Application extends Controller {
   def authenticate = Action { implicit request =>
     loginForm.bindFromRequest.fold(
       formWithErrors => BadRequest(html.login(formWithErrors)),
-      user => Redirect(routes.Chart.grafico).withSession("email" -> user._1)
+      user => Redirect(routes.Chart.grafico).withSession("email" -> user._1).flashing("info"->"Welcome, the graphic represents the actual results from people's voting.")
     )
   }
 
@@ -43,8 +43,8 @@ object Application extends Controller {
    * Logout and clean the session.
    */
   def logout = Action {
-    Redirect(routes.Application.index).withNewSession.flashing(
-      "success" -> "You've been logged out"
+    Redirect(routes.Chart.grafico).withNewSession.flashing(
+      "success" -> "You've been logged out succesfully."
     )
   }
 

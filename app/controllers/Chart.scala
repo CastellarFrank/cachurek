@@ -14,7 +14,7 @@ import anorm._
 
 object Chart extends Controller with Secured{
 
-  def grafico = Action {
+  def grafico = Action {implicit request =>
     DB.withConnection { implicit connection =>
       val selectContados = SQL("Select * from votoscontados")
 

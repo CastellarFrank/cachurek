@@ -1,6 +1,6 @@
 @* imagePanel Template File *@
-@(source: String, ref: String = "#", myClass: String = "th [radius]")
+@(source: String, myClass: String = "th [radius]")
 
-<a class='@myClass' href='@ref'>
+<span class='@myClass' style="cursor: pointer;">
 	<img src=@routes.Assets.at("images/test.jpg") style="width:220px; height:120px;">
-</a>
+</span>

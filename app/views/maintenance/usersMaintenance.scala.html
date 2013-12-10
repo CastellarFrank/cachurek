@@ -1,5 +1,5 @@
 @* usersMaintenance Template File *@
-@(users: Seq[UserData])
+@(users: Seq[UserData])(implicit flash: Flash = null)
 
 @import views.html.buttons._
 @import views.html.panels._
@@ -9,6 +9,34 @@
 	@marginPanel(10,10,10,10){
 		@simpleNormalButton("Add User", "button", routes.Users.newUserForm)
 		<br />
+	
+    @if(flash!=null){
+    	@flash.get("success").map { message =>
+		    <p class="success_message">
+		        @message
+		    </p>
+	    }
+	    
+	    @flash.get("error").map { message =>
+		    <p class="error_message">
+		        @message
+		    </p>
+	    }
+	    
+	    @flash.get("warning").map { message =>
+		    <p class="warning_message">
+		        @message
+		    </p>
+	    }
+	    
+	    @flash.get("info").map { message =>
+		    <p class="info_message">
+		        @message
+		    </p>
+	    }
+    	
+    }
+		
 		
 	<script type="text/javaScript">
 	    $(document).ready(function() {
@@ -38,8 +66,8 @@
 					<td>@user.level</td>
 					<td>@user.status</td>
 					<td>
-						@simpleNormalButton("Modify", "button" ,routes.Application.index)
-            			@simpleNormalButton("Eliminate", "button alert" ,routes.Application.index)
+						@simpleNormalButton("Modify", "button" ,routes.Chart.grafico)
+            			@simpleNormalButton("Eliminate", "button alert" ,routes.Chart.grafico)
 					</td>
 				</tr>
 			}

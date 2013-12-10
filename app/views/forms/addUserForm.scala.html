@@ -1,4 +1,4 @@
-@(addUserForm: Form[UserData])
+@(addUserForm: Form[UserData])(implicit flash: Flash)
 
 @import helper._
 @import views.html.buttons._
@@ -6,50 +6,63 @@
 
 
 @main("Welcome to Play") {
-
+	
 	@marginPanel(10,10,10,10){
 		@helper.form(action = routes.Users.submitNewUser) {
+		
+		@addUserForm.globalError.map { error =>
+		    <p class="error_message">
+		        @error.message
+		    </p>
+	    }
+		
     	<fieldset>
             <legend>Account information</legend>
             
             @inputText(
                 addUserForm("basics.email"), '_label -> "Email",
                 '_help -> "",
-                '_error -> addUserForm.error("basics")
+                '_error -> addUserForm.error("basics"),
+                'placeholder -> "youremail@example.com"
             )
             
             @inputPassword(
                 addUserForm("password.main"), 
                 '_label -> "Password",
-                '_help -> ""
+                '_help -> "",
+                'placeholder -> "your password"
             )
             
             @inputPassword(
                 addUserForm("password.confirm"), 
                 '_label -> "Repeat password",
-                '_help -> "Please repeat your password again.",
-                '_error -> addUserForm.error("password")
+                '_error -> addUserForm.error("password"),
+                'placeholder -> "repeat password"
             )
             
             @select(
                 addUserForm("level"), 
                 options = options(List("Mortal","Inmortal")),
-                '_label -> "User Type",
-                '_error -> addUserForm("level").error.map(_.withMessage("Please select an user Type"))
+                '_label -> "User Type"
             )
             
             @select(
                 addUserForm("status"), 
                 options = options(List("Activa","Inactiva")),
-                '_label -> "User Status",
-                '_error -> addUserForm("status").error.map(_.withMessage("Please select an user status"))
+                '_label -> "User Status"
             )
             
         </fieldset>
-        <div class="actions">
-        	@simpleSubmitButton("Add User")
-            @simpleNormalButton("Cancel", "button alert" ,routes.Application.index)
-        </div>
+        
+        <div style="text-align:center;">
+			<div style="display:inline-block;width:47.5%; margin-right:0.5em;">
+				@simpleSubmitButton("Add User", "button expand")
+			</div>
+			<div style="display:inline-block;width:47.5%; margin-left:0.5em;">
+				@simpleNormalButton("Cancel", "button alert expand" ,routes.Chart.grafico)
+			</div>
+		</div>
+        
     }
 		
 		

@@ -7,33 +7,48 @@
 
 
 
-@main("Vote Page") {
+@main("CachureK Vote Page") {
 	
 	<script>
-		
+		var id = -1;
 		$(window).load(function(){
-			alert('yoaahh');
-			current = 0;
+			var current = 0;
+			var first = 0;
 			$(".imageSelectPanel").each(function(i, obj) {
-				
+				if(first==0){
+					$(obj).addClass("bordered");
+					id = $(obj).find('input[name=myIdValue]:first').val(); 
+					$(obj).removeClass("noSelected");
+					first = 1;
+					current = $(obj);
+				}
 				$(obj).click(function() {
 					if(current!=0){
 						if(current.hasClass("bordered")){
 							current.removeClass("bordered");
+							current.addClass("noSelected");
+							id = $(obj).find('input[name=myIdValue]:first').val(); 
 						}
 					}
-					
 					$(this).addClass("bordered");
-					
+					id = $(obj).find('input[name=myIdValue]:first').val(); 
+					$(this).removeClass("noSelected");
 					current = $(this);
 				});
-	
-				//$( obj ).click(function() {
-				//	$( this ).css( "border-color", "green" );
-				//});
-				
+			});
+			$(".horizontalScroll").mCustomScrollbar({
+			    horizontalScroll:true,
+			    theme:"dark",
+				scrollInertia: 500
 			});
 		});
+
+		function myVoteFunction(){
+			var url = "/candidates/vote/" + id;  
+			alert("yeee");
+			alert(url);  
+			$(location).attr('href',url);
+		}
 		
 	</script>
 	
@@ -42,12 +57,20 @@
 		.bordered {
 		    border: 3px solid green;
 		}
+		
+		.noSelected:HOVER {
+			border: 1px solid blue;
+		}
 	
 	</style>
-	@marginPanel(margin_top = 30, margin_bottom = 30, margin_left = 15, margin_right = 15){
+	@marginPanel(margin_top = 15, margin_bottom = 30, margin_left = 15, margin_right = 15){
+		
+		<button onclick="myVoteFunction()" class="download button expand">Vote For Selected Candidate</button>
+		
 		@horizontalPanel{
 			@for((candidate,index) <- candidates.zipWithIndex){
-				<div class="imageSelectPanel" style="display:inline-block; margin:10px;">
+				<div class="imageSelectPanel noSelected" style="display:inline-block; margin:10px;">
+					<input type="hidden" name="myIdValue" value="@candidate.id">
 					@verticalPanel{
 						@marginPanel(10,10,10,10){
 							@candidate.name	

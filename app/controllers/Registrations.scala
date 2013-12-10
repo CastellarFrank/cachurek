@@ -29,7 +29,7 @@ object Registrations extends Controller {
 		  error => BadRequest(views.html.Registrations.register(error)),
 		  newRegister => {
 		  			Register.insert(newRegister)
-		  			Redirect(routes.Registrations.add())
+		  			Redirect(routes.Application.login).flashing("info"->"Now you are available to login.")
 		  }
 		)		
 	}

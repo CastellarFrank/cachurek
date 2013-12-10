@@ -54,7 +54,7 @@ object Users extends Controller{
   )
   
   
-  def newUserForm = Action {
+  def newUserForm = Action { implicit request =>
     Ok(views.html.forms.addUserForm(userDataForm));
   }
   
@@ -63,7 +63,7 @@ object Users extends Controller{
       errors => BadRequest(views.html.forms.addUserForm(errors)),
       UserData => {
     	  UsersActions.newUserInsert(UserData)
-    	  Redirect(routes.Users.maintenance)
+    	  Redirect(routes.Users.maintenance).flashing("succes" -> "The new user has been added succesfully.")
         }
     )
   }
@@ -73,6 +73,12 @@ object Users extends Controller{
   }
   
   def vote = Action{implicit request =>
-    Ok(views.html.vote(CandidatesActions.getAllCandidates))
+    session.get("email").map { user =>{
+    		Ok(views.html.vote(CandidatesActions.getAllCandidates))
+    	}
+	}.getOrElse {
+		Redirect(routes.Application.login).flashing("warning" -> "You have to login first.")
+	}
+    
   }
 }

@@ -7,6 +7,8 @@ import play.api.data._
 import play.api.data.Forms._
 import play.api.mvc.Action
 import play.api.mvc.HttpConnection
+import play.api.mvc._
+import models.UsersActions
 
 object Candidates extends Controller{
 	
@@ -15,7 +17,7 @@ object Candidates extends Controller{
 					"name" -> nonEmptyText,
 					"group" -> nonEmptyText
 					)
-					((name, group) => Candidate(name, group,"",""))
+					((name, group) => Candidate(-1,name, group,"",""))
 					(data => Some(data.name,data.group)
 					)
 			)
@@ -56,10 +58,24 @@ object Candidates extends Controller{
 		)
 	}
 	
+	def voteForCandidate(id:Int) = Action{implicit request =>
+	  val email = session.get("email");
+	  if(email!=null && !email.isEmpty){
+	    CandidatesActions.newVoteForCandidate(id, UsersActions.getIdByEmail(email.get))
+	    Redirect(routes.Chart.grafico).flashing("succes" -> "Your vote has been processed.")
+	  }else{
+	    Redirect(routes.Chart.grafico).flashing("error" -> "You have already voted.")
+	  }
+  }
+	
+	
+	
+	
 	def editForm(id: Int) = 
 	{
 		Ok(views.html.Candidates.add(addCandidateForm))
 	}
+	
 	def edit = TODO
 	def delete(id: Int) = TODO
 	
