@@ -9,12 +9,13 @@ import play.api.mvc.Action
 import anorm._
 import java.util.Calendar
 import com.typesafe.plugin._
+import play.api.db.DB
 
 object Registrations extends Controller {
 	
 	def registerForm = Form(
 			mapping(
-					"email" -> email,
+					"email" -> (email).verifying("Email alredy exists!!",email => !Register.userExist(email)),
 					"password" -> tuple(
 							"main" -> nonEmptyText,
 							"confirm" -> nonEmptyText
@@ -38,8 +39,26 @@ object Registrations extends Controller {
 		Ok(views.html.Registrations.register(registerForm))
 	}
 	
-	def confirmRegistration(email: String)= Action { implicit request =>
-		Ok(views.html.Registrations.register(registerForm))
+	def confirmRegistration(email: String,token: String)= Action { implicit request =>
+		var result=0
+		DB.withConnection { implicit connection =>
+			result = SQL(
+	      		"""
+	    		  UPDATE Users SET status=true
+	    		  WHERE email={email} and confirmationToken={confirmationToken}
+	    		"""
+	      ).on(
+	        "email" -> email,
+	        "confirmationToken" -> token
+	      ).executeUpdate
+	    }
+		if(result>0) {
+			Redirect(routes.Application.login).flashing("info"->"Your information was successfully completed")
+		}
+		else {
+			Redirect(routes.Application.login).flashing("error"->"The data you provided is incorrect")
+		}
+				
 	}
 	
 }

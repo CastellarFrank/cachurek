@@ -69,9 +69,7 @@ object Candidates extends Controller{
   }
 	
 	
-	
-	
-	def editForm(id: Int) = 
+	def editForm(id: Int) = Action
 	{
 		Ok(views.html.Candidates.add(addCandidateForm))
 	}

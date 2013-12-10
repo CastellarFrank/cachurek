@@ -9,6 +9,7 @@ GET 	/login  					controllers.Application.login
 POST    /login                      controllers.Application.authenticate
 GET		/register					controllers.Registrations.register
 POST	/register					controllers.Registrations.add
+GET		/confirm/:email/:token		controllers.Registrations.confirmRegistration(email, token)
 GET     /users/addNewUser           controllers.Users.newUserForm
 POST    /users/addNewUser           controllers.Users.submitNewUser
 GET		/users/maintenance			controllers.Users.maintenance
@@ -16,8 +17,9 @@ GET		/vote						controllers.Users.vote
 GET		/candidates					controllers.Candidates.index
 GET		/candidates/add				controllers.Candidates.addForm
 POST	/candidates/add				controllers.Candidates.add
-GET		/candidates/edit			controllers.Candidates.edit
+GET		/candidates/edit/:id		controllers.Candidates.editForm(id: Int)
 POST	/candidates/edit			controllers.Candidates.edit
+GET		/candidates/delete/:id		controllers.Candidates.delete(id: Int)
 GET		/candidates/vote/:id		controllers.Candidates.voteForCandidate(id: Int)
 
 
