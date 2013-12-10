@@ -40,6 +40,43 @@ object UsersActions{
 	    }
 	  }
 	  
+	  def getEmailByID(id:Int):String = {
+	    if(id== -1){
+	      ""
+	    }else{
+	    	DB.withConnection { implicit connection =>
+		      SQL(
+		        """
+		    		SELECT email FROM USERS WHERE id = {id}
+			    """
+			   ).on(
+			     "id" -> id
+			   ).as(scalar[String].single)
+		    }
+	    }
+	  }
+	  
+	  def getIdByEmail(email:String):Int = {
+	    if(email==null || email.isEmpty()){
+	      -1
+	    }else{
+	    	DB.withConnection { implicit connection =>
+		       val num = SQL(
+		        """
+		    		SELECT id FROM USERS WHERE email = {email}
+			    """
+			   ).on(
+			     "email" -> email
+			   ).as(scalar[Int].singleOpt)
+			   if(num==None){
+			     -1
+			   }else{
+			     num.get
+			   }
+		    }
+	    }
+	  }
+	  
 	  def userExist(email:String):Boolean = {
 	     DB.withConnection { implicit connection =>
 	       val count:Long = SQL(

@@ -3,8 +3,8 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
-GET     /grafica                    controllers.Chart.grafico
+GET     /		                    controllers.Chart.grafico
+GET		/logout						controllers.Application.logout
 GET 	/login  					controllers.Application.login
 POST    /login                      controllers.Application.authenticate
 GET		/register					controllers.Registrations.register
@@ -13,6 +13,12 @@ GET     /users/addNewUser           controllers.Users.newUserForm
 POST    /users/addNewUser           controllers.Users.submitNewUser
 GET		/users/maintenance			controllers.Users.maintenance
 GET		/vote						controllers.Users.vote
+GET		/candidates					controllers.Candidates.index
+GET		/candidates/add				controllers.Candidates.addForm
+POST	/candidates/add				controllers.Candidates.add
+GET		/candidates/edit			controllers.Candidates.edit
+POST	/candidates/edit			controllers.Candidates.edit
+GET		/candidates/vote/:id		controllers.Candidates.voteForCandidate(id: Int)
 
 
 

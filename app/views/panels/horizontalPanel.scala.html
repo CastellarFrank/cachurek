@@ -1,6 +1,14 @@
 @* horizontalPanel Template File *@
 @(content: Html)
 
-<div style="display:block; with:100%; text-align:center;">
+
+<div class="horizontalScroll scrolls" style="display:block; with:100%; text-align:center;">
 	@content
 </div>
+
+<style media="screen" type="text/css">
+	.scrolls {
+	    white-space:nowrap
+	}
+</style>
+

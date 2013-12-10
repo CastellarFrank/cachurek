@@ -1,53 +1,62 @@
 
 @(form: Form[(String,String)])(implicit flash: Flash)
 
-    <html>
-    <head>
-        <title>Zentasks</title>
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
 
-    </head>
-    <body>
-
-    <header>
-        <a href="@routes.Application.index" id="logo"><span>Zen</span>tasks</a>
-    </header>
-
-    @helper.form(routes.Application.authenticate) {
-
-    <h1>Sign in</h1>
-
-    @form.globalError.map { error =>
-    <p class="error">
-        @error.message
-    </p>
-    }
-
-    @flash.get("success").map { message =>
-    <p class="success">
-        @message
-    </p>
-    }
-
-    <p>
-        <input type="email" name="email" placeholder="Email" id="email" value="@form("email").value">
-    </p>
-    <p>
-        <input type="password" name="password" id="password" placeholder="Password">
-    </p>
-    <p>
-        <button type="submit" id="loginbutton">Login</button>
-    </p>
-
-    }
-
-    <p class="note">
-        Try <em>guillaume@@sample.com</em> with <em>secret</em> as password.
-    </p>
-
-    </body>
-    </html>
-
+@import views.html.panels._
     
 
+@main("Login CachureK"){
+	@form.globalError.map { error =>
+		    <p class="error_message">
+		        @error.message
+		    </p>
+	    }
+	    @if(flash!=null){
+	    	@flash.get("success").map { message =>
+			    <p class="success_message">
+			        @message
+			    </p>
+		    }
+		    
+		    @flash.get("error").map { message =>
+			    <p class="error_message">
+			        @message
+			    </p>
+		    }
+		    
+		    @flash.get("warning").map { message =>
+			    <p class="warning_message">
+			        @message
+			    </p>
+		    }
+		    
+		    @flash.get("info_message").map { message =>
+			    <p class="info_message">
+			        @message
+			    </p>
+		    }
+	    	
+	    }
+	
+	<div style="width:40%; margin:auto;">
+		@marginPanel(margin_top = 50, margin_bottom = 30, margin_left = 30, margin_right = 30){
+		@helper.form(routes.Application.authenticate) {
 
+	    <h1>Sign in</h1>
+	
+	    <p>
+	        <input type="email" name="email" placeholder="Email" id="email" value="@form("email").value">
+	    </p>
+	    <p>
+	        <input type="password" name="password" id="password" placeholder="Password">
+	    </p>
+	    <p>
+	        <button type="submit" id="loginbutton">Login</button>
+	    </p>
+	
+	    }
+	
+	}
+	</div>
+}
+    
