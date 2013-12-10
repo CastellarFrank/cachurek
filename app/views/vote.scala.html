@@ -4,28 +4,65 @@
 @import views.html.buttons._
 @import views.html.panels._
 
+
+
+
 @main("Vote Page") {
 	
+	<script>
+		
+		$(window).load(function(){
+			alert('yoaahh');
+			current = 0;
+			$(".imageSelectPanel").each(function(i, obj) {
+				
+				$(obj).click(function() {
+					if(current!=0){
+						if(current.hasClass("bordered")){
+							current.removeClass("bordered");
+						}
+					}
+					
+					$(this).addClass("bordered");
+					
+					current = $(this);
+				});
+	
+				//$( obj ).click(function() {
+				//	$( this ).css( "border-color", "green" );
+				//});
+				
+			});
+		});
+		
+	</script>
+	
+	<style media="screen" type="text/css">
+
+		.bordered {
+		    border: 3px solid green;
+		}
+	
+	</style>
 	@marginPanel(margin_top = 30, margin_bottom = 30, margin_left = 15, margin_right = 15){
 		@horizontalPanel{
 			@for((candidate,index) <- candidates.zipWithIndex){
-				@if(index % 5 == 0){
-					<br />
-				}
-				@verticalPanel{
-					@marginPanel(10,10,10,10){
-						@candidate.name	
+				<div class="imageSelectPanel" style="display:inline-block; margin:10px;">
+					@verticalPanel{
+						@marginPanel(10,10,10,10){
+							@candidate.name	
+						}
+						@marginPanel(10,10,10,10){
+							@imagePanel(source = candidate.imagePath)	
+						}
+						@marginPanel(10,10,10,10){
+							@imageFlagPanel(source = candidate.imageFlagPath)	
+						}
+						@marginPanel(10,10,10,10){
+							@candidate.group	
+						}
 					}
-					@marginPanel(10,10,10,10){
-						@imagePanel(source = candidate.imagePath)	
-					}
-					@marginPanel(10,10,10,10){
-						@imageFlagPanel(source = candidate.imageFlagPath)	
-					}
-					@marginPanel(10,10,10,10){
-						@candidate.group	
-					}
-				}
+				</div>
 			}	
 		}
 		

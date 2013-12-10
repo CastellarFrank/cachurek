@@ -11,15 +11,17 @@
 		@helper.form(action = routes.Users.submitNewUser) {
     	<fieldset>
             <legend>Account information</legend>
+            
             @inputText(
-                addUserForm("email"), '_label -> "Email",
-                '_help -> "Enter a valid email address."
+                addUserForm("basics.email"), '_label -> "Email",
+                '_help -> "",
+                '_error -> addUserForm.error("basics")
             )
             
             @inputPassword(
                 addUserForm("password.main"), 
                 '_label -> "Password",
-                '_help -> "A password must be at least 6 characters. "
+                '_help -> ""
             )
             
             @inputPassword(
@@ -45,7 +47,6 @@
             
         </fieldset>
         <div class="actions">
-        
         	@simpleSubmitButton("Add User")
             @simpleNormalButton("Cancel", "button alert" ,routes.Application.index)
         </div>

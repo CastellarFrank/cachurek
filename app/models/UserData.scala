@@ -29,6 +29,22 @@ object UsersActions{
 	    }
 	  }
 	  
+	  def getEmailByID(id:Int):String = {
+	    if(id== -1){
+	      ""
+	    }else{
+	    	DB.withConnection { implicit connection =>
+		      SQL(
+		        """
+		    		SELECT email FROM USERS WHERE id = {id}
+			    """
+			   ).on(
+			     "id" -> id
+			   ).as(scalar[String].single)
+		    }
+	    }
+	  }
+	  
 	  def userExist(email:String):Boolean = {
 	     DB.withConnection { implicit connection =>
 	       val count:Long = SQL(

@@ -7,14 +7,23 @@ import play.api.data._
 import models.UserData
 import models.UsersActions
 import models.CandidatesActions
+import models.UserData
 
 
 object Users extends Controller{
   
   val userDataForm: Form[UserData] = Form(
 	  mapping(
-	    "email" -> text.verifying(
-	        "Email already exists", email => !UsersActions.userExist(email)
+	    "basics" -> tuple(
+	        "id" -> default(number, -1),
+	        "email" -> nonEmptyText
+	        ).verifying(
+	        		"Email already exists", 
+	        		valor => if(valor._2.equals(UsersActions.getEmailByID(valor._1))){
+	        		  true
+	        		}else{
+	        		  !UsersActions.userExist(valor._2)
+	        		}
 	        ),
 	    "password" -> tuple(
 	        "main" -> text(minLength = 6), 
@@ -26,22 +35,24 @@ object Users extends Controller{
 	     "status" -> text
 	  )
 	  {
-		  (email, passwords, level, status) => UserData(
-				email, 
-		      	passwords._1,
-		      	if(level.equals("Mortal")) 1 else 2,
-		      	status.equals("Activa")
+		  (basics, passwords, level, status) => UserData(
+				id = basics._1,
+				email = basics._2, 
+		      	password = passwords._1,
+		      	level = if(level.equals("Mortal")) 1 else 2,
+		      	status = status.equals("Activa")
 		  ) 
 	  }	
 	  {
 		  user => Some(
-		      user.email,
+		      (user.id, user.email),
 		      (user.password, ""), 
 		      if(user.level==1) "Mortal" else "Inmortal", 
 		      if(user.status) "Activa" else "Inactiva"
 		  )
 	  }
   )
+  
   
   def newUserForm = Action {
     Ok(views.html.forms.addUserForm(userDataForm));
