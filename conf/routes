@@ -8,6 +8,11 @@ GET		/register					controllers.Registrations.register
 POST	/register					controllers.Registrations.add
 GET     /addNewUser                 controllers.Users.newUserForm
 POST    /addNewUser                 controllers.Users.submitNewUser
+GET		/candidates					controllers.Candidates.index
+GET		/candidates/add				controllers.Candidates.addForm
+POST	/candidates/add				controllers.Candidates.add
+GET		/candidates/edit			controllers.Candidates.edit
+POST	/candidates/edit			controllers.Candidates.edit
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

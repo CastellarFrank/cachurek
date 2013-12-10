@@ -1,0 +1,25 @@
+@* add Template File *@
+@(addCandidateForm: Form[Candidate])
+
+@import views.html.helper._
+
+@main("Add Candidate"){
+	@helper.form(action = routes.Candidates.add,'enctype -> "multipart/form-data"){
+	      @inputText(addCandidateForm("name"),'_label -> "Name",
+	      	'placeholder -> "your name"
+	      )
+	      @inputText(addCandidateForm("group"),'_label -> "Group",
+	      	'placeholder -> "your group"
+	      )
+	      @inputFile(addCandidateForm("image"),'_label -> "Photograph",
+	      	'placeholder -> "upload your photo",
+	      	'accept -> "image/*"
+	      )
+	      @inputFile(addCandidateForm("flag"),'_label -> "Group Flag",
+	      	'placeholder -> "upload your group flag image",
+	      	'accept -> "image/*"
+	      )
+	      <p>
+	    <input type="submit" class="btn" value="Register"/>
+	}
+}
