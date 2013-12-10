@@ -3,7 +3,7 @@ package models
 import play.api.Play.current
 import play.api.db.DB
 import anorm._
-import java.util.Calendar
+import java.util.Date
 import sun.security.jca.GetInstance
 import scala.util.Random
 import com.typesafe.plugin._
@@ -13,7 +13,7 @@ case class registerUserData(email: String,password: String) {}
 object Register {
 	
 	def insert(newUser: registerUserData): Boolean = {
-		var random= new Random(Calendar.getInstance().getTime().getSeconds())
+		var random= new Random(new Date().getTime().toInt)
     	var token = random.alphanumeric.take(45).mkString 
     	var result=1
     DB.withConnection { implicit connection =>
@@ -26,7 +26,7 @@ object Register {
       ).on(
         "email" -> newUser.email,
         "password" -> newUser.password,
-        "created" -> Calendar.getInstance().getTime(), 
+        "created" -> new Date().getTime(), 
         "level" -> 1,
         "status" -> false,
         "confirmationToken" -> token

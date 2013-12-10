@@ -38,7 +38,7 @@ object Registrations extends Controller {
 		Ok(views.html.Registrations.register(registerForm))
 	}
 	
-	def confirmRegistration(email: String)= Action {
+	def confirmRegistration(email: String)= Action { implicit request =>
 		Ok(views.html.Registrations.register(registerForm))
 	}
 	

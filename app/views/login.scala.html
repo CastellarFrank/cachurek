@@ -1,9 +1,6 @@
-
 @(form: Form[(String,String)])(implicit flash: Flash)
 
-
 @import views.html.panels._
-    
 
 @main("Login CachureK"){
 	@form.globalError.map { error =>

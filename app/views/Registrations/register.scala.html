@@ -1,10 +1,44 @@
-@* register Template File *@
-@(registerForm: Form[registerUserData])
+@(registerForm: Form[registerUserData])(implicit flash: Flash)
 
+@import views.html.panels._
 @import views.html.helper._
 
 @main("Register"){
-	@helper.form(action = routes.Registrations.add){
+	@registerForm.globalError.map { error =>
+		    <p class="error_message">
+		        @error.message
+		    </p>
+	    }
+	    @if(flash!=null){
+	    	@flash.get("success").map { message =>
+			    <p class="success_message">
+			        @message
+			    </p>
+		    }
+		    
+		    @flash.get("error").map { message =>
+			    <p class="error_message">
+			        @message
+			    </p>
+		    }
+		    
+		    @flash.get("warning").map { message =>
+			    <p class="warning_message">
+			        @message
+			    </p>
+		    }
+		    
+		    @flash.get("info_message").map { message =>
+			    <p class="info_message">
+			        @message
+			    </p>
+		    }
+	    	
+	    }
+	
+	<div style="width:40%; margin:auto;">
+		@marginPanel(margin_top = 50, margin_bottom = 30, margin_left = 30, margin_right = 30){
+		@helper.form(action = routes.Registrations.add){
 	      @inputText(registerForm("email"),'_label -> "E-mail",
 	      	'placeholder -> "youremail@example.com"
 	      )
@@ -15,10 +49,11 @@
 	      	'placeholder -> "type your password again",
 	      	'_error -> registerForm.error("password")
 	      )
-	    <input type="submit" class="btn" value="Register"/>
+	    <button type="submit" >Register</button>
 	}
-}
 	
-
+	}
+	</div>
+}
 
 
