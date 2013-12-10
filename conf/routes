@@ -13,6 +13,11 @@ GET     /users/addNewUser           controllers.Users.newUserForm
 POST    /users/addNewUser           controllers.Users.submitNewUser
 GET		/users/maintenance			controllers.Users.maintenance
 GET		/vote						controllers.Users.vote
+GET		/candidates					controllers.Candidates.index
+GET		/candidates/add				controllers.Candidates.addForm
+POST	/candidates/add				controllers.Candidates.add
+GET		/candidates/edit			controllers.Candidates.edit
+POST	/candidates/edit			controllers.Candidates.edit
 
 
 
