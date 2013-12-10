@@ -4,10 +4,13 @@
 
 # Home page
 GET     /                           controllers.Application.index
+GET     /grafica                    controllers.Chart.grafico
+GET 	/login  					controllers.Application.login
+POST    /login                      controllers.Application.authenticate
 GET		/register					controllers.Registrations.register
 POST	/register					controllers.Registrations.add
-GET     /users/addNewUser                 controllers.Users.newUserForm
-POST    /users/addNewUser                 controllers.Users.submitNewUser
+GET     /users/addNewUser           controllers.Users.newUserForm
+POST    /users/addNewUser           controllers.Users.submitNewUser
 GET		/users/maintenance			controllers.Users.maintenance
 GET		/vote						controllers.Users.vote
 
