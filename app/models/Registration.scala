@@ -42,7 +42,7 @@ object Register {
 					mail.addRecipient("fernandez_alex_15@hotmail.com")
 					mail.addBcc(List("Omar Lorenzo <olorenzo@outlook.com>",newUser.email):_*)
 					mail.addFrom("Alex Fernandez <noreply@cachurek.com>")
-					mail.send( newUser.email , "http://localhost:9000/confirm/"+newUser.email+"/"+token)
+					mail.send( newUser.email , "http://cachurek.herokuapp.com/confirm/"+newUser.email+"/"+token)
 	(result == 1)
   }
 	
