@@ -5,12 +5,23 @@ import play.api.db.DB
 import anorm._
 import java.util.Calendar
 import anorm.SqlParser._
+import scala.language.postfixOps
 import java.util.Date
 
 case class UserData(email:String, password:String = "", level:Int, 
     status:Boolean, id:Int = 0, modified: Option[Date] = null, created: Option[Date] = null)
 
 object UsersActions{
+
+  val parseo = {
+        get[String]("USERS.email") ~
+        get[String]("USERS.password") ~
+        get[Int]("USERS.level") ~
+        get[Boolean]("USERS.status") map {
+        case email~password~level~status => UserData(email, password, level, status)
+      }
+    }
+
 	  def newUserInsert(newUser: UserData): Boolean = {
 	    DB.withConnection { implicit connection =>
 	      SQL(
@@ -43,6 +54,28 @@ object UsersActions{
 		     
 	     }
 	  }
+
+
+
+  /**
+   * Authenticate a User.
+   */
+  def authenticate(email: String, password: String): Option[UserData] = {
+    DB.withConnection { implicit connection =>
+      SQL(
+        """
+         select * from Users where
+         email = {email} and password = {password}
+        """
+      ).on(
+          'email -> email,
+          'password -> password
+        ).as(UsersActions.parseo.singleOpt)
+    }
+  }
+
+
+
 	  
 	  def getAllUsers():Seq[UserData] = {
 	    DB.withConnection { implicit connection =>
