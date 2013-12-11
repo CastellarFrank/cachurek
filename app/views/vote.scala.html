@@ -76,10 +76,10 @@
 							@candidate.name	
 						}
 						@marginPanel(10,10,10,10){
-							@imagePanel(source = candidate.imagePath)	
+							@imagePanel(source = candidate.id.toString)	
 						}
 						@marginPanel(10,10,10,10){
-							@imageFlagPanel(source = candidate.imageFlagPath)	
+							@imageFlagPanel(source = candidate.id.toString+"_flag")	
 						}
 						@marginPanel(10,10,10,10){
 							@candidate.group	

@@ -2,5 +2,5 @@
 @(source: String, myClass: String = "th [radius]")
 
 <span class='@myClass' style="cursor: pointer;">
-	<img src=@routes.Assets.at("images/test.jpg") style="width:220px; height:120px;">
+	<img src=@routes.Assets.at("images/"+source) style="width:220px; height:120px;">
 </span>
